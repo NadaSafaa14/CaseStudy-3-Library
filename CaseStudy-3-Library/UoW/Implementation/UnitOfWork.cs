@@ -9,18 +9,22 @@ namespace CaseStudy_3_Library.UoW.Implementation
     {
         protected readonly AppDbContext _context;
 
-        public UnitOfWork(AppDbContext context)
-        {
-            _context = context;
-        }
-
         public IBookRepo Books { get; }
 
-        public IGenericRepo<Membeer> Members { get; }
+        public IMemberRepo Members { get; }
 
-        public IGenericRepo<Category> Categories { get; }
+        public ICategoryRepo Categories { get; }
 
-        public IGenericRepo<Borrowing> Borrowings { get; }
+        public IBorrowingRepo Borrowings { get; }
+
+        public UnitOfWork(AppDbContext context , IBookRepo books , IMemberRepo members , ICategoryRepo categories , IBorrowingRepo borrowings)
+        {
+            _context = context;
+            Books = books;
+            Members = members;
+            Categories = categories;
+            Borrowings = borrowings;
+        }
 
         public int Save()
         {

@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using CaseStudy_3_Library.DTOs.BookDTO;
+﻿using CaseStudy_3_Library.DTOs.BookDTO;
+using CaseStudy_3_Library.Models;
 using CaseStudy_3_Library.UoW.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CaseStudy_3_Library.Controllers
 {
@@ -10,40 +11,74 @@ namespace CaseStudy_3_Library.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        protected readonly IUnitOfWork _unitOfWork;
+        protected readonly IUnitOfWork unitOfWork;
 
         public BooksController(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
-        }   
+            this.unitOfWork = unitOfWork;
+        }
 
         [HttpPost]
-        public IActionResult Add(AddBookDTO dto)
+        public IActionResult AddBook(AddBookDTO dto)
         {
-            if (dto == null)
+            if (dto.Price <= 0)
             {
-                return BadRequest();
+                return BadRequest("Price must be greater than zero");
             }
 
-            var category = _unitOfWork.Categories.GetById(dto.CategoryId);
+            var isbnExists = unitOfWork.Books
+                .GetAll()
+                .Any(b => b.ISBN == dto.ISBN);
+
+            if (isbnExists)
+            {
+                return BadRequest("ISBN already exists");
+            }
+
+            var category = unitOfWork.Categories
+                .GetById(dto.CategoryId);
 
             if (category == null)
             {
-                return BadRequest();
+                return NotFound("Category not found");
             }
 
-            if (dto.Price < 0)
+            var book = new Book
             {
-                return BadRequest();
-            }
+                Title = dto.Title,
+                Author = dto.Author,
+                ISBN = dto.ISBN,
+                Price = dto.Price,
+                CategoryId = dto.CategoryId,
+                IsAvailable = true
+            };
 
-            //Validate that ISBN is unique.
+            unitOfWork.Books.Add(book);
 
-            _unitOfWork.Categories.Add(category);
-
-            _unitOfWork.Save();
+            unitOfWork.Save();
 
             return Created();
+        }
+
+        [HttpGet("search")]
+        public IActionResult Search(string keyword)
+        {
+            var books = unitOfWork.Books.Search(keyword);
+
+            return Ok(books);
+        }
+
+        [HttpGet("most-expensive")]
+        public IActionResult MostExpensive()
+        {
+            var book = unitOfWork.Books.GetMostExpensive();
+
+            if (book == null)
+            {
+                return NotFound("No books found");
+            }
+
+            return Ok(book);
         }
     }
 }

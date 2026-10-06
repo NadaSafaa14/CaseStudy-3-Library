@@ -6,9 +6,9 @@ namespace CaseStudy_3_Library.UoW.Interface
     public interface IUnitOfWork
     {
         IBookRepo Books {  get;}
-        IGenericRepo<Membeer> Members { get;}
-        IGenericRepo<Category> Categories { get;}
-        IGenericRepo<Borrowing> Borrowings { get;}
+        IMemberRepo Members { get;}
+        ICategoryRepo Categories { get;}
+        IBorrowingRepo Borrowings { get;}
 
         int Save();
     }
