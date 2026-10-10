@@ -9,6 +9,8 @@ namespace CaseStudy_3_Library.UoW.Interface
         IMemberRepo Members { get;}
         ICategoryRepo Categories { get;}
         IBorrowingRepo Borrowings { get;}
+        IUserRepo ApplicationUsers { get; }
+        IAuthRepo authRepo { get; }
 
         int Save();
     }

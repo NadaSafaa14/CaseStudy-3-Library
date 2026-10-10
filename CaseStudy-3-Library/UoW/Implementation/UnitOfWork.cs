@@ -17,13 +17,19 @@ namespace CaseStudy_3_Library.UoW.Implementation
 
         public IBorrowingRepo Borrowings { get; }
 
-        public UnitOfWork(AppDbContext context , IBookRepo books , IMemberRepo members , ICategoryRepo categories , IBorrowingRepo borrowings)
+        public IUserRepo ApplicationUsers { get; }
+
+        public IAuthRepo authRepo { get; }
+
+        public UnitOfWork(AppDbContext context ,IAuthRepo authRepo , IBookRepo books , IMemberRepo members , ICategoryRepo categories , IBorrowingRepo borrowings , IUserRepo users)
         {
             _context = context;
             Books = books;
             Members = members;
             Categories = categories;
             Borrowings = borrowings;
+            ApplicationUsers = users;
+            this.authRepo = authRepo;
         }
 
         public int Save()

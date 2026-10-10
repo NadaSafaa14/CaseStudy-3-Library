@@ -15,6 +15,7 @@ namespace CaseStudy_3_Library.Data
         public DbSet<Membeer> Members { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Borrowing> Borrowings  { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers  { get; set; }
 
       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -62,6 +63,10 @@ namespace CaseStudy_3_Library.Data
                 .Property(b => b.IsAvailable)
                 .HasDefaultValue(true);
 
+            modelBuilder.Entity<ApplicationUser>()
+                .HasIndex(u => u.UserName)
+                .IsUnique();
+          
             modelBuilder.Entity<Membeer>()
                 .HasData(
                 new Membeer { Id = 1 , FullName = "Ahmed Hassan" , Email = "ahmed@example.com" , Phone = "01012345678" } ,

@@ -24,6 +24,10 @@ builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
 
 builder.Services.AddScoped<IBorrowingRepo, BorrowingRepo>();
 
+builder.Services.AddScoped<IUserRepo, UserRepo>(); 
+
+builder.Services.AddScoped<IAuthRepo, AuthRepo>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
