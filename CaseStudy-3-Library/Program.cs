@@ -3,7 +3,12 @@ using CaseStudy_3_Library.Repos.Implementations;
 using CaseStudy_3_Library.Repos.Interfaces;
 using CaseStudy_3_Library.UoW.Implementation;
 using CaseStudy_3_Library.UoW.Interface;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +33,47 @@ builder.Services.AddScoped<IUserRepo, UserRepo>();
 
 builder.Services.AddScoped<IAuthRepo, AuthRepo>();
 
+
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme =
+        JwtBearerDefaults.AuthenticationScheme;
+
+    options.DefaultChallengeScheme =
+        JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+
+        ValidateAudience = true,
+
+        ValidAudience = builder.Configuration["JWT:Audience"],
+
+        ValidateLifetime = true,
+
+        ValidateIssuerSigningKey = true,
+
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.ASCII.GetBytes(
+                builder.Configuration["JWT:SecretKey"]!
+            )
+        ),
+
+        //NameClaimType = ClaimTypes.Name,
+        //RoleClaimType = ClaimTypes.Role,
+
+        //ClockSkew = TimeSpan.Zero
+    };
+});
+
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -43,6 +89,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

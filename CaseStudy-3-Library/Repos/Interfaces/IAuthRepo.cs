@@ -7,6 +7,6 @@ namespace CaseStudy_3_Library.Repos.Interfaces
     {
         Task<bool> Register(RegisterDTO dto);
 
-        Task<LoginResponseDTO> Login(LoginDTO dto);
+        Task<LoginResponseDTO?> Login(LoginDTO dto);
     }
 }

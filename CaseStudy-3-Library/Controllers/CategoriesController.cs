@@ -1,6 +1,7 @@
 ﻿using CaseStudy_3_Library.DTOs.CategoryDTO;
 using CaseStudy_3_Library.Models;
 using CaseStudy_3_Library.UoW.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace CaseStudy_3_Library.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly IUnitOfWork unitOfWork;

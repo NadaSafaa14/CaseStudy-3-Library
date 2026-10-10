@@ -147,15 +147,15 @@ namespace CaseStudy_3_Library.Migrations
                         {
                             Id = 1,
                             BookId = 1,
-                            BorrowDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1997),
+                            BorrowDate = new DateTime(2026, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MemberId = 1,
-                            ReturnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1992)
+                            ReturnDate = new DateTime(2026, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
                             BookId = 2,
-                            BorrowDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1995),
+                            BorrowDate = new DateTime(2026, 9, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MemberId = 2
                         });
                 });

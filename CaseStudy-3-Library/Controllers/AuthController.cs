@@ -1,8 +1,7 @@
-﻿using CaseStudy_3_Library.DTOs.ApplicationUserDTOs;
-using CaseStudy_3_Library.Models;
+﻿
+using CaseStudy_3_Library.DTOs.ApplicationUserDTOs;
 using CaseStudy_3_Library.UoW.Interface;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CaseStudy_3_Library.Controllers
@@ -11,14 +10,14 @@ namespace CaseStudy_3_Library.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        protected readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public AuthController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterDTO dto)
         {
@@ -27,14 +26,34 @@ namespace CaseStudy_3_Library.Controllers
                 return BadRequest();
             }
 
-            var result = await _unitOfWork.authRepo.Register(dto);
+            bool result = await _unitOfWork.authRepo.Register(dto);
 
             if (!result)
             {
                 return BadRequest("Username already exists");
             }
 
-            return Created();
+            return Ok("Registration successful");
+        }
+
+        [AllowAnonymous]
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(LoginDTO dto)
+        {
+            if (dto == null || !ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var result = await _unitOfWork.authRepo.Login(dto);
+
+            if (result == null)
+            {
+                return Unauthorized("Invalid username or password");
+            }
+
+            return Ok(result);
         }
     }
 }
+

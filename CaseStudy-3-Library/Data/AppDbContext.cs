@@ -87,8 +87,8 @@ namespace CaseStudy_3_Library.Data
 
             modelBuilder.Entity<Borrowing>()
                 .HasData(
-                new Borrowing { Id = 1, BorrowDate = new DateTime(2026 - 09 - 20), ReturnDate = new DateTime(2026 - 09 - 25), BookId = 1, MemberId = 1 },
-                new Borrowing { Id = 2, BorrowDate = new DateTime(2026 - 09 - 22), ReturnDate = null, BookId = 2, MemberId = 2 }
+                new Borrowing { Id = 1, BorrowDate = new DateTime(2026, 09, 20), ReturnDate = new DateTime(2026, 09, 25), BookId = 1, MemberId = 1 },
+                new Borrowing { Id = 2, BorrowDate = new DateTime(2026, 09, 22), ReturnDate = null, BookId = 2, MemberId = 2 }
                 );
         }
     }

@@ -1,6 +1,7 @@
 ﻿using CaseStudy_3_Library.DTOs.BookDTO;
 using CaseStudy_3_Library.Models;
 using CaseStudy_3_Library.UoW.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -9,6 +10,7 @@ namespace CaseStudy_3_Library.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BooksController : ControllerBase
     {
         protected readonly IUnitOfWork unitOfWork;
